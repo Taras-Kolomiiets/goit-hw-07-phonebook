@@ -1,36 +1,34 @@
 import * as Yup from 'yup';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
 import FormButton from '../FormButton/FormButton';
-import { addContact } from '../../redux/contacts/contacts-actions';
-import { getContacts } from '../../redux/contacts/contacts-selectors';
 import s from './ContactForm.module.css';
+import { useCreateContactMutation } from 'redux/contacts/contacts-slice';
 
-export default function ContactForm() {
-  const contacts = useSelector(getContacts);
-  const dispatch = useDispatch();
+export default function ContactForm({contacts}: any) {
+  const [createContact] = useCreateContactMutation();
 
   const isInContacts = (name: string) => {
     name = name.toLowerCase();
     return (
-      contacts.filter(contact => contact.name.toLowerCase().includes(name))
+      contacts.filter((contact: any) => contact.name.toLowerCase().includes(name))
         .length > 0
     );
   };
 
-  const addContactToPhonebook = ({ name, phoneNumber }: {name: string, phoneNumber: string}) => {
+  const addContactToPhonebook = ({ name, phone }: {name: string, phone: string}) => {
     if (isInContacts(name)) {
       alert(`${name} is already in contacts`);
       return;
     }
+    const contact = {name, phone}
 
-    dispatch(addContact(name, phoneNumber));
+    createContact(contact);
   };
 
   return (
     <div>
       <Formik
-        initialValues={{ name: '', phoneNumber: '' }}
+        initialValues={{ name: '', phone: '' }}
         validationSchema={Yup.object({
           name: Yup.string()
             .required()
@@ -38,7 +36,7 @@ export default function ContactForm() {
               /^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/,
               "Name can contain only letters, ', - and space.",
             ),
-          phoneNumber: Yup.string()
+          phone: Yup.string()
             .required()
             .matches(
               /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/,
@@ -69,12 +67,12 @@ export default function ContactForm() {
             Phone number:
             <Field
               className={s.fieldInput}
-              name="phoneNumber"
+              name="phone"
               type="tel"
               placeholder="enter your phone number"
             />
             <ErrorMessage
-              name="phoneNumber"
+              name="phone"
               component="span"
               className={s.validatorError}
             />

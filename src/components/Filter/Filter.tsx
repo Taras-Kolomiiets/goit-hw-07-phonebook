@@ -3,7 +3,7 @@ import { changeFilter } from '../../redux/contacts/contacts-actions';
 import s from './Filter.module.css';
 import { useDispatch } from 'react-redux';
 
-export default function Filter() {
+export default function Filter({contacts}: any) {
   const dispatch = useDispatch();
   return (
     <div>

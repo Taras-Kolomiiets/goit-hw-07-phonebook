@@ -1,24 +1,17 @@
-import { useDispatch, useSelector } from 'react-redux';
-
 import FormButton from '../FormButton';
 import { MdDelete } from 'react-icons/md';
-import React from 'react';
-import { deleteContact } from '../../redux/contacts/contacts-actions';
-import { getFilteredContacts } from '../../redux/contacts/contacts-selectors';
 import s from './ContactList.module.css';
 
-export default function ContactList() {
-  const contacts = useSelector(getFilteredContacts);
-  const dispatch = useDispatch();
+export default function ContactList({contacts, onDelete}: any) {
 
   return (
     <ul className={s.list}>
-      {contacts.map(({ id, name, phoneNumber }) => (
+      {contacts.map(({ id, name, phone }: any) => (
         <li key={id} className={s.item}>
           <span className={s.itemName}>{name}</span>
-          <span className={s.itemPhone}>{phoneNumber}</span>
+          <span className={s.itemPhone}>{phone}</span>
           <FormButton
-            onClick={() => dispatch<any>(deleteContact(id))}
+            onClick={() => onDelete(id)}
             aria-label="Delete contact"
           >
             <MdDelete size="18" />

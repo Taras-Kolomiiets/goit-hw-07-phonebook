@@ -1,23 +1,29 @@
-import React from 'react';
-import { changeFilter } from '../../redux/contacts/contacts-actions';
+import {useState, useEffect } from 'react';
 import s from './Filter.module.css';
-import { useDispatch } from 'react-redux';
 
-export default function Filter({contacts}: any) {
-  const dispatch = useDispatch();
-  return (
-    <div>
-      <label>
-        Find contacts by name:
-        <input
-          type="text"
-          name="filter"
-          onChange={e => {
-            dispatch(changeFilter(e.target.value));
-          }}
-          className={s.fieldInput}
-        />
-      </label>
-    </div>
-  );
-}
+export default function Filter({ applyFilter }: any) {
+  const [filterValue, setFilterValue] = useState("");
+
+  useEffect(() => {
+    applyFilter(filterValue);
+  }, [filterValue, applyFilter]);
+  
+  const handleChangeFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFilterValue(e.target.value);
+  };
+    return (
+      <div>
+        <label>
+          Find contacts by name:
+          <input
+            type="text"
+            name="filter"
+            value={filterValue}
+            onChange={handleChangeFilter}
+            className={s.fieldInput}
+          />
+        </label>
+      </div>
+    );
+  }
+

@@ -6,7 +6,7 @@ export const contactsApi = createApi({
   tagTypes: ['Contact'],
   endpoints: (builder) => ({
     getContacts: builder.query({
-        query: () => `/contacts`,
+        query: (filterStr) => `contacts?sortBy=name&name=${filterStr}`,
         providesTags: ['Contact']
     }),
       deleteContact: builder.mutation({

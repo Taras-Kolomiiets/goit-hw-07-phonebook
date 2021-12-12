@@ -1,7 +1,6 @@
 import logger from 'redux-logger';
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { contactsApi } from './contacts/contacts-slice';
-import contactsReducer from './contacts/contacts-reducer';
 
 const middleware = [
   ...getDefaultMiddleware(),
@@ -11,7 +10,6 @@ const middleware = [
 
 export const store = configureStore({
   reducer: {
-    contacts: contactsReducer,
     [contactsApi.reducerPath]: contactsApi.reducer,
   },
   middleware,

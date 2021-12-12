@@ -1,13 +1,17 @@
 import {useState, useEffect } from 'react';
 import s from './Filter.module.css';
 
-export default function Filter({ applyFilter }: any) {
-  const [filterValue, setFilterValue] = useState("");
+interface IFilter {
+  filterContacts: (query: string) => void
+}
+
+export default function Filter({ filterContacts }: IFilter) {
+  const [filterValue, setFilterValue] = useState<string>("");
 
   useEffect(() => {
-    applyFilter(filterValue);
-  }, [filterValue, applyFilter]);
-  
+    filterContacts(filterValue);
+  }, [filterValue, filterContacts]);
+
   const handleChangeFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFilterValue(e.target.value);
   };

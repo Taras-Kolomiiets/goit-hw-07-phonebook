@@ -1,18 +1,18 @@
 import './App.css';
-import React, {useState} from 'react';
+import {useState} from 'react';
 import ContactForm from './components/ContactForm';
 import ContactList from './components/ContactList';
 import Filter from './components/Filter';
-import { useDeleteContactMutation, useGetContactsQuery} from 'redux/contacts/contacts-slice';
+import { useDeleteContactMutation, useGetContactsQuery } from 'redux/contacts/contacts-slice';
 
 export default function App() {
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState<string>("");
 
   const { data } = useGetContactsQuery(filter);
   const [deleteContact] = useDeleteContactMutation();
 
-  function applyFilter(xWord: string) {
-    setFilter(xWord);
+  const filterContacts = (query: string) => {
+    setFilter(query);
   }
 
   return (
@@ -21,7 +21,7 @@ export default function App() {
       <ContactForm contacts={data}/>
 
       <h2>Contacts</h2>
-      <Filter applyFilter={ applyFilter}/>
+      <Filter filterContacts={filterContacts}/>
      {data && <ContactList contacts={data} onDelete={deleteContact} />}
     </div>
   );

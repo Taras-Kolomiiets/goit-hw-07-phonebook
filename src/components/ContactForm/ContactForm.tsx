@@ -3,14 +3,17 @@ import { ErrorMessage, Field, Form, Formik } from 'formik';
 import FormButton from '../FormButton/FormButton';
 import s from './ContactForm.module.css';
 import { useCreateContactMutation } from 'redux/contacts/contacts-slice';
+import IContacts from 'interfaces/IContacts'
+import IContact from 'interfaces/IContact'
 
-export default function ContactForm({contacts}: any) {
+
+export default function ContactForm({contacts}: IContacts) {
   const [createContact] = useCreateContactMutation();
 
   const isInContacts = (name: string) => {
     name = name.toLowerCase();
     return (
-      contacts.filter((contact: any) => contact.name.toLowerCase().includes(name))
+      contacts.filter((contact: IContact) => contact.name.toLowerCase().includes(name))
         .length > 0
     );
   };

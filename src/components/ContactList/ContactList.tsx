@@ -1,12 +1,18 @@
 import FormButton from '../FormButton';
 import { MdDelete } from 'react-icons/md';
 import s from './ContactList.module.css';
+import IContacts from 'interfaces/IContacts'
+import IContact from 'interfaces/IContact';
 
-export default function ContactList({contacts, onDelete}: any) {
+interface IContactsList extends IContacts {
+  onDelete: (id: string) => void
+}
+
+export default function ContactList({contacts, onDelete}: IContactsList) {
 
   return (
     <ul className={s.list}>
-      {contacts.map(({ id, name, phone }: any) => (
+      {contacts.map(({ id, name, phone }: IContact) => (
         <li key={id} className={s.item}>
           <span className={s.itemName}>{name}</span>
           <span className={s.itemPhone}>{phone}</span>
